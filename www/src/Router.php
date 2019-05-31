@@ -19,18 +19,22 @@ class Router{
         return $this;
     }
 */
-    public function run():void{
+    public function run(): void{
         $match = $this->router->match();
-        if( is_array($match)){
-            ob_start();
+        ob_start();
+        if (is_array($match)) {
             $params = $match['params'];
-            require $this->viewPath . DIRECTORY_SEPARATOR . $match['target'] . '.php';
-            $content = ob_get_clean();
-            require $this->viewPath . DIRECTORY_SEPARATOR . '/layout/default.php';
-            exit();
+            require $this->pathToFile($match['target']);
         } else {
-            header( $_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
-            exit();
+            // no route was matched
+            header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+            require $this->pathToFile("layout/404");
         }
+        $content = ob_get_clean();
+        require $this->pathToFile("layout/default");
+    }
+    
+    private function pathToFile(string $file): string{
+        return $this->viewPath . DIRECTORY_SEPARATOR . $file . '.php';
     }
 }
