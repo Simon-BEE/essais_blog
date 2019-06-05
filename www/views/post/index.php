@@ -1,8 +1,5 @@
 <?php
-/**
- * fichier qui génère la vue pour l'url /article/[i:id]
- * 
- */
+use App\Model\Post;
 
 try {
     $pdo = new PDO("mysql:dbname=blog;charset=UTF8;host=".getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
@@ -15,18 +12,18 @@ $slug = $params['slug'];
 
 $sql = "SELECT * FROM post WHERE id = ?";
 $state = $pdo->prepare($sql);
-$post = $state->execute([$id]);
-//$post->setFetchMode(\PDO::FETCH_CLASS, Post::class);
-$post = $state->fetch(PDO::FETCH_OBJ);
-
-$title = $post->name;
+$state->execute([$id]);
+$state->setFetchMode(PDO::FETCH_CLASS, Post::class);
+$post = $state->fetch();
+//dd($post);
+$title = $post->getName();
 
 ?>
 
 <section class="post">
     <article class="card">
         <h1 class="card-title text-center"><?= $title; ?></h1>
-        <p class="card-text"><?= $post->content; ?></p>
-        <p class="card-footer"><?= (new DateTime($post->created_at))->format('d/m/Y h:i'); ?></p>
+        <p class="card-text"><?= $post->getContent(); ?></p>
+        <p class="card-footer"><?= $post->getCreatedAt(); ?></p>
     </article>
 </section>

@@ -48,7 +48,7 @@ nav ul li a{
     text-decoration: none;
     color: #fff;
     margin: 2% 20%;
-    padding: 5% 5% 10% 5%;
+    padding: 5% 5% 10% 5%!important;
     text-transform: uppercase;
 }
 
@@ -91,7 +91,7 @@ article :last-child{
     text-align: right;
 }
 
-p.pages a{
+li.pages a{
     text-decoration: none;
     color: #444;
     padding: 10px;
@@ -112,4 +112,29 @@ p.pages a:hover, p.pages a:focus, p.pages a:active{
 
 section.post{
     height: 85vh;
+}
+
+ul.list-cat{
+    padding: 5% 0;
+    list-style: none;
+    text-align: center;
+}
+
+.list-cat li{
+    padding: 20px 0;
+}
+
+.list-cat li a{
+    text-decoration: none;
+    color: #333;
+}
+
+nav.page{
+    height: 50%;
+    margin: 0 auto;
+}
+
+nav.page ul{
+    width: 50%;
+    margin-bottom: 5%;
 }

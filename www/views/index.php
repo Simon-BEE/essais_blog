@@ -1,5 +1,7 @@
 <?php
-//dd($_ENV);
+use App\Model\Post;
+use App\Helpers\Text;
+
 try {
     $pdo = new PDO("mysql:dbname=blog;charset=UTF8;host=".getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
 } catch (PDOException $e) {
@@ -22,10 +24,16 @@ if (isset($_GET['page'])) {
     $currentPage = 1;
 }
 $offset = ($currentPage - 1) * $perPage;
-$posts = $pdo->query("SELECT * FROM post ORDER BY id LIMIT {$offset}, {$perPage}")->fetchAll(PDO::FETCH_CLASS, App\Post::class);
-
+$posts = $pdo->query("SELECT * FROM post ORDER BY id LIMIT {$offset}, {$perPage}")->fetchAll(PDO::FETCH_CLASS, Post::class);
+//dd($posts);
 $title = "Home";
 
+/**
+ * 
+ * $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()])
+ * <a href="<?= $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()]) ?>" class="text-center pb-2">lire plus</a>
+ * <a href="/article/<?= $post->getSlug() ?>-<?= $post->getId() ?>" class="text-center pb-2">lire plus</a>
+ */
 
 ?>
     <section class="articles bg-light mb-2 mt-3 p-5 d-flex flex-wrap align-items-strech justify-content-center row">
@@ -33,8 +41,8 @@ $title = "Home";
         <article class="row col-3 m-2 d-flex flex-column">
             <div class="d-flex flex-column border">
                 <h2 class="card-title"><span class="text-secondary"><?= $post->getId()." |</span> ".substr($post->getName(),0,20); ?></h2>
-                <p class="card-text"><?= substr($post->getContent(), 0, 200); ?></p>
-                <a href="/article/<?= $post->getSlug() ?>-<?= $post->getId() ?>" class="text-center pb-2">lire plus</a>
+                <p class="card-text"><?= Text::excerpt($post->getContent(), 200); ?></p>
+                <a href="<?= $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()]) ?>" class="text-center pb-2">lire plus</a>
             </div>
             <p class="card-footer text-muted"> <?= $post->getCreatedAt(); ?></p>
         </article>
@@ -45,9 +53,7 @@ $title = "Home";
         <?php for ($i = 1; $i <= $nbPage; $i++) : ?>
             <?php $class = $currentpage == $i ? " active" : ""; ?>
             <?php $uri = $i == 1 ? "" : "?page=" . $i; ?>
-            <li class="page-item<?= $class ?>"><a class="page-link" href="/<?= $uri ?>"><?= $i ?></a></li>
+            <li class="pages page-item<?= $class ?>"><a class="page-link" href="/<?= $uri ?>"><?= $i ?></a></li>
         <?php endfor ?>
         </ul>
     </nav>
-
-    

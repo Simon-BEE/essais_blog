@@ -1,4 +1,5 @@
 <?php
+define("GENERATE_TIME_START", microtime(true));
 $basepath = dirname(__dir__). DIRECTORY_SEPARATOR;
 require $basepath.'vendor/autoload.php';
 
@@ -28,8 +29,7 @@ if (isset($_GET["page"]) && ((int)$_GET["page"] <= 1 || !is_int((int)$_GET["page
 $router = new App\Router($basepath.'views');
 $router->get('/', 'index', 'home')
         ->get('/categories', 'categories', 'categories')
-        ->get('/category/[*:slug]-[i:id]', 'category', 'category')
-        ->get('/contact', 'contact', 'contact')
+        ->get('/category/[*:slug]-[i:id]', 'category/category', 'category')
         ->get('/article/[*:slug]-[i:id]', 'post/index', 'post')
         ->run();
 ////

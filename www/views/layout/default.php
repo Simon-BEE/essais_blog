@@ -18,9 +18,7 @@
             <nav>
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="categories">Categories</a></li>
-                    <li><a href="#">Archives</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/categories">Categories</a></li>
                 </ul>
             </nav>
             <div class="search">
@@ -29,12 +27,21 @@
             </div>
         </div>
     </header>
-    <body>
+    <main>
         <?= $content ?>
-    </body>
+    </main>
     <footer class="footer bg-dark fixed-bottom py-1">
         <div class="text-center">
-            <span class="text-white">by SIMON</span>
+            <?php
+            $debug = "";
+            if(getenv("ENV_DEV")){
+                $end = microtime(true);
+                //global $start;
+                $generationTime = number_format(($end - GENERATE_TIME_START)*1000, 2);
+                $debug ="-- page générée en  ". $generationTime ." ms";
+            }
+            ?>
+            <span class="text-white">by SIMON <?= $debug; ?></span>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
