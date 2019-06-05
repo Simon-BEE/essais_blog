@@ -1,31 +1,53 @@
 <?php
-$pdo = new PDO('mysql:dbname=blog;host=blog.mysql;charset=UTF8', 'userblog', 'blogpwd');
-
-$count = $pdo->query("SELECT COUNT(id) FROM post")->fetch()[0]/10;
-if(null !== $_GET['page'] && intval($_GET['page'] > 0 && $_GET['page'] < $count)){
-    $start = 10*$_GET['page'] -10;
-}else{
-    $start = 0;
+//dd($_ENV);
+try {
+    $pdo = new PDO("mysql:dbname=blog;charset=UTF8;host=".getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
+} catch (PDOException $e) {
+    echo 'Connexion échouée : ' . $e->getMessage();
 }
-$rec = $pdo->query("SELECT * FROM post ORDER BY created_at DESC LIMIT 10 OFFSET {$start}");
-$result2 = $rec->fetchAll();
+//$pdo = new PDO("mysql:dbname=blog;host=".getenv('MYSQL_HOST');"charset=UTF8", getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
 
-$title = "home";
+$nbPost = $pdo->query("SELECT COUNT(id) FROM post")->fetch()[0];
+$perPage = 12;
+$nbPage = ceil($nbPost / $perPage);
+
+if ((int)$_GET['page'] > $nbPage) {
+    header('location: /');
+    exit();
+}
+
+if (isset($_GET['page'])) {
+    $currentPage = (int)$_GET['page'];
+}else{
+    $currentPage = 1;
+}
+$offset = ($currentPage - 1) * $perPage;
+$posts = $pdo->query("SELECT * FROM post ORDER BY id LIMIT {$offset}, {$perPage}")->fetchAll(PDO::FETCH_CLASS, App\Post::class);
+
+$title = "Home";
+
+
 ?>
-    <section class="articles">
-<?php foreach($result2 as $result): ?>
-        <article>
-            <h2><span><?= $result['id']." |</span> ".$result['name']; ?></h2>
-            <p ><?= $result['content']; ?></p>
-            <p><?= $result['created_at']; ?></p>
+    <section class="articles bg-light mb-2 mt-3 p-5 d-flex flex-wrap align-items-strech justify-content-center row">
+<?php foreach($posts as $post): ?>
+        <article class="row col-3 m-2 d-flex flex-column">
+            <div class="d-flex flex-column border">
+                <h2 class="card-title"><span class="text-secondary"><?= $post->getId()." |</span> ".substr($post->getName(),0,20); ?></h2>
+                <p class="card-text"><?= substr($post->getContent(), 0, 200); ?></p>
+                <a href="/article/<?= $post->getSlug() ?>-<?= $post->getId() ?>" class="text-center pb-2">lire plus</a>
+            </div>
+            <p class="card-footer text-muted"> <?= $post->getCreatedAt(); ?></p>
         </article>
 <?php endforeach; ?>
     </section>
-    <section class="pagination">
-        <p class="pages">
-            <a href="/">1</a>
-            <?php for ($i=2; $i <= $count; $i++):?>
-            <a href="/?page=<?= $i ?>"><?= $i ?></a>
-            <?php endfor; ?>
-        </p>
-    </section>
+    <nav class="page navigation">
+        <ul class="pagination justify-content-center">
+        <?php for ($i = 1; $i <= $nbPage; $i++) : ?>
+            <?php $class = $currentpage == $i ? " active" : ""; ?>
+            <?php $uri = $i == 1 ? "" : "?page=" . $i; ?>
+            <li class="page-item<?= $class ?>"><a class="page-link" href="/<?= $uri ?>"><?= $i ?></a></li>
+        <?php endfor ?>
+        </ul>
+    </nav>
+
+    

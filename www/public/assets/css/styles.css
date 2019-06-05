@@ -18,6 +18,16 @@ header, footer{
     justify-content: center;
 }
 
+.top-head{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+div.search{
+    display: flex;
+}
+
 nav{
     width: 100%;
     margin-bottom: 4px;
@@ -95,6 +105,11 @@ p.pages a:hover, p.pages a:focus, p.pages a:active{
     color: #fff;
 }
 
-span{
-    color: #efefef;
+.highlight {
+    background: yellow;
+    color: #000;
+}
+
+section.post{
+    height: 85vh;
 }
