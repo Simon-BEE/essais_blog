@@ -36,24 +36,24 @@ $title = "Home";
  */
 
 ?>
-    <section class="articles bg-light mb-2 mt-3 p-5 d-flex flex-wrap align-items-strech justify-content-center row">
+    <section class="articles">
 <?php foreach($posts as $post): ?>
-        <article class="row col-3 m-2 d-flex flex-column">
-            <div class="d-flex flex-column border">
-                <h2 class="card-title"><span class="text-secondary"><?= $post->getId()." |</span> ".substr($post->getName(),0,20); ?></h2>
-                <p class="card-text"><?= Text::excerpt($post->getContent(), 200); ?></p>
-                <a href="<?= $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()]) ?>" class="text-center pb-2">lire plus</a>
+        <article class="">
+            <div class="">
+                <h2 class=""><span class=""><?= $post->getId()." |</span> ".substr($post->getName(),0,20); ?></h2>
+                <p class=""><?= Text::excerpt($post->getContent(), 200); ?></p>
+                <a href="<?= $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()]) ?>">lire plus</a>
             </div>
-            <p class="card-footer text-muted"> <?= $post->getCreatedAt(); ?></p>
+            <p> <?= $post->getCreatedAt(); ?></p>
         </article>
 <?php endforeach; ?>
     </section>
     <nav class="page navigation">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination">
         <?php for ($i = 1; $i <= $nbPage; $i++) : ?>
             <?php $class = $currentpage == $i ? " active" : ""; ?>
             <?php $uri = $i == 1 ? "" : "?page=" . $i; ?>
-            <li class="pages page-item<?= $class ?>"><a class="page-link" href="/<?= $uri ?>"><?= $i ?></a></li>
+            <li><a href="/<?= $uri ?>"><?= $i ?></a></li>
         <?php endfor ?>
         </ul>
     </nav>

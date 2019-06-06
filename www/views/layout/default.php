@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 </head>
 
-<body class="container-fluid p-0">
+<body>
     <header>
         <h1><?= $title ?? 'hello' ?></h1>
         <div class="top-head">
@@ -30,8 +30,8 @@
     <main>
         <?= $content ?>
     </main>
-    <footer class="footer bg-dark fixed-bottom py-1">
-        <div class="text-center">
+    <footer class="footer">
+        <div>
             <?php
             $debug = "";
             if(getenv("ENV_DEV")){
@@ -41,7 +41,7 @@
                 $debug ="-- page générée en  ". $generationTime ." ms";
             }
             ?>
-            <span class="text-white">by SIMON <?= $debug; ?></span>
+            <span>by SIMON <?= $debug; ?></span>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

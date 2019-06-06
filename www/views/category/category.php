@@ -1,23 +1,26 @@
 <?php
-use App\Model\Post;
+use App\Model\{Post, Category};
 use App\Helpers\Text;
+use App\Connection;
 
-try {
-    $pdo = new PDO("mysql:dbname=blog;charset=UTF8;host=".getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
-} catch (PDOException $e) {
-    echo 'Connexion échouée : ' . $e->getMessage();
-}
+$pdo = Connection::getPDO();
 
 $id = (int)$params['id'];
 $slug = $params['slug'];
 
-$sql = "SELECT * FROM post_category WHERE category_id =?";
-$state = $pdo->prepare($sql);
-$state->execute([$id]);
-$postsCat = $state->fetchAll(PDO::FETCH_CLASS, Post::class);
+$query = $pdo->prepare('
+SELECT p.id, p.name, p.slug, p.content, p.created_at
+FROM post_category pc
+JOIN post p ON pc.post_id = p.id
+WHERE pc.category_id = :id
+');
+$query->execute([':id' => $id]);
+$query->setFetchMode(PDO::FETCH_CLASS, Post::class);
+/** @var Category[] */
+$posts = $query->fetchAll();
 
-foreach ($postsCat as $value) {
-    $array[] += $value->post_id;
+if (!$posts) {
+    throw new Exception('Aucune catégorie ne correspond à cet Id !');
 }
 
 $sql3 = "SELECT * FROM category WHERE id =?";
@@ -25,26 +28,29 @@ $state3 = $pdo->prepare($sql3);
 $state3->execute([$id]);
 $state3->setFetchMode(PDO::FETCH_CLASS, Post::class);
 $categ = $state3->fetch();
-$title = $categ->getName();
+$title = "Category : ".$categ->getName();
 
+if ($categ->getSlug() !== $slug) {
+    $url = $router->url('category', ['id' => $id, 'slug' => $categ->getSlug()]);
+    http_response_code(301);
+    header('location: '.$url);
+    exit();
+}
+
+//dd($posts);
 ?>
 
-<div>
+<section class="articles">
     <?php
-    foreach ($array as $value) :
-        $sql2 = "SELECT * FROM post WHERE id =?";
-        $state2 = $pdo->prepare($sql2);
-        $state2->execute([$value]);
-        $state2->setFetchMode(PDO::FETCH_CLASS, Post::class);
-        $post = $state2->fetch();
-    ?>
-        <article class="row col-3 m-2 d-flex flex-column">
-            <div class="d-flex flex-column border">
-                <h2 class="card-title"><span class="text-secondary"><?= $post->getId()." |</span> ".substr($post->getName(),0,20); ?></h2>
-                <p class="card-text"><?= Text::excerpt($post->getContent(), 200); ?></p>
-                <a href="<?= $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()]) ?>" class="text-center pb-2">lire plus</a>
+    foreach ($posts as $post) : ?>
+        <article>
+            <div>
+                <h2><span><?= $post->getId()." |</span> ".substr($post->getName(),0,20); ?></h2>
+                <p><?= Text::excerpt($post->getContent(), 200); ?></p>
+                <a href="<?= $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()]) ?>">lire plus</a>
             </div>
-            <p class="card-footer text-muted"> <?= $post->getCreatedAt(); ?></p>
+            <p> <?= $post->getCreatedAt(); ?></p>
         </article>
     <?php endforeach; ?>
-</div>
+</section>
+

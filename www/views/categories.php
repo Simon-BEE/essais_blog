@@ -1,11 +1,9 @@
 <?php
 use App\Model\Post;
+use App\Connection;
 
-try {
-    $pdo = new PDO("mysql:dbname=blog;charset=UTF8;host=".getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
-} catch (PDOException $e) {
-    echo 'Connexion échouée : ' . $e->getMessage();
-}
+$pdo = Connection::getPDO();
+
 //$post = $pdo->query("SELECT * FROM category")->fetchAll(PDO::FETCH_OBJ);
 $categories = $pdo->query("SELECT * FROM category")->fetchAll(PDO::FETCH_CLASS, Post::class);
 //dd($categories);
