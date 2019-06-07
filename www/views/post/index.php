@@ -4,7 +4,7 @@ use App\Helpers\Text;
 use App\PaginatedQuery;
 use App\Connection;
 
-$url = "/";
+$url = $router->url("home");
 
 $paginatedQuery = new App\PaginatedQuery(
     "SELECT COUNT(id) FROM post", 
@@ -24,6 +24,4 @@ $title = "Home";
 } ?>
 </section>
 
-<?php 
-echo $paginatedQuery->getNav();
-?>
+<?php echo $paginatedQuery->getNav(); ?>

@@ -10,6 +10,7 @@ class PaginatedQuery{
     private $perPage;
     private $pdo;
     private $nbPage;
+    private $currentPage;
 
     public function __construct(string $queryCount, string $query, string $classMapping, string $url, int $perPage = 12){
         $this->queryCount = $queryCount;
@@ -21,17 +22,12 @@ class PaginatedQuery{
     }
 
     public function getItems(): ?array{
-        $nbPost = $this->pdo->query($this->queryCount)->fetch()[0];
-        $this->nbPage = ceil($nbPost / $this->perPage);
-        if ((int)$_GET['page'] > $this->nbPage) {
+        $this->nbPage = $this->getNbPages();
+        $this->currentPage = $this->getCurrentPage();
+        if ($this->currentPage > $this->nbPage) {
             throw new \Exception ('Pas de pages !');
         }
-        if (isset($_GET['page'])) {
-            $currentPage = (int)$_GET['page'];
-        }else{
-            $currentPage = 1;
-        }
-        $offset = ($currentPage - 1) * $this->perPage;
+        $offset = ($this->currentPage - 1) * $this->perPage;
         $step1 = $this->pdo->query($this->query." LIMIT {$this->perPage} OFFSET {$offset}");
         $step1->setFetchMode(\PDO::FETCH_CLASS, $this->classMapping);
         return $step1->fetchAll();
@@ -40,11 +36,29 @@ class PaginatedQuery{
     public function getNav(){
         $test = '<nav class="navigation">';
         $test .= '<ul class="pagination">';
-        for ($i = 1; $i <= $this->nbPage; $i++) :
-            $this->url .= $i == 1 ? "" : "?page=" . $i;
-        $test .= "<li><a href='{$this->url}'>{$i}</a></li>";
+        for ($i = 1; $i <= $this->getNbPages(); $i++) :
+                $this->url = $i == $this->url ? "" : "?page=" . $i;
+                $test .= "<li><a href='{$this->url}'>{$i}</a></li>";
         endfor;
         $test .= '</ul></nav>';
         return $test;
+    }
+
+    // public function getNavArray(){
+    //     $navArray = [];
+    //     for ($i=0; $i < $a; $i++) { 
+    //         return;
+    //     }
+    // }
+
+    private function getNbPages():int{
+        if($this->count === null){
+            $this->count = $this->pdo->query($this->queryCount)->fetch()[0];
+        }
+        return (int)ceil($this->count / $this->perPage);
+    }
+
+    private function getCurrentPage():int{
+        return URL::getPositiveInt('page', 1);
     }
 }

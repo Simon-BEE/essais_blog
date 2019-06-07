@@ -45,6 +45,4 @@ if ($categ->getSlug() !== $slug) {
 } ?>
 </section>
 
-<?php 
-echo $paginatedQuery->getNav();
-?>
+<?php echo $paginatedQuery->getNav(); ?>
