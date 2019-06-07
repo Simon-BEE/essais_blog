@@ -1,5 +1,6 @@
 <?php
 namespace App\Model;
+use App\Helpers\Text;
 
 class Post {
     private $id;
@@ -26,6 +27,10 @@ class Post {
 
     public function getCreatedAt($format = 'd/m/Y h:i'):string{
         return (new \DateTime($this->created_at))->format($format);
+    }
+
+    public function getExcerpt(int $length):string{
+        return htmlentities(Text::excerpt($this->getContent(), $length));
     }
     
 }

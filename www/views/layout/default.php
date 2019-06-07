@@ -15,7 +15,7 @@
     <header>
         <h1><?= $title ?? 'hello' ?></h1>
         <div class="top-head">
-            <nav>
+            <nav class="menu">
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/categories">Categories</a></li>

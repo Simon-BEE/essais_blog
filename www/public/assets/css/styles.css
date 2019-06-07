@@ -6,6 +6,7 @@ body{
     align-items: center;
     margin: 0 10%;
     font-family: 'Roboto', sans-serif;
+    height: 100%;
 }
 
 header, footer{
@@ -18,6 +19,10 @@ header, footer{
     justify-content: center;
 }
 
+footer{
+    margin-top: auto;
+}
+
 .top-head{
     display: flex;
     justify-content: space-between;
@@ -26,6 +31,8 @@ header, footer{
 
 div.search{
     display: flex;
+    height: 20px;
+    margin-right: 20px;
 }
 
 nav{
@@ -33,29 +40,19 @@ nav{
     margin-bottom: 4px;
 }
 
-ul{
-    float: left;
-    margin: 0;
-}
-
 nav ul{
     list-style: none;
     display: flex;
-    justify-content: flex-end;
 }
 
-nav ul li a{
-    text-decoration: none;
+ul li{
+    margin: 0 20px;
+}
+
+.menu a {
     color: #fff;
-    margin: 2% 20%;
-    padding: 5% 5% 10% 5%!important;
+    text-decoration: none;
     text-transform: uppercase;
-}
-
-nav ul li a:hover, nav ul li a:focus, nav ul li a:active{
-    background-color: #fff;
-    color: #777;
-    border-radius: 5px;
 }
 
 section.articles{
@@ -69,8 +66,6 @@ article{
     padding: 3%;
     box-shadow: 0 1px 50px #efefef;
     border-radius: 15px;
-    height: 300px;
-    overflow: auto;
 }
 
 h1, h2{
@@ -110,10 +105,6 @@ p.pages a:hover, p.pages a:focus, p.pages a:active{
     color: #000;
 }
 
-section.post{
-    height: 85vh;
-}
-
 ul.list-cat{
     padding: 5% 0;
     list-style: none;
@@ -129,12 +120,16 @@ ul.list-cat{
     color: #333;
 }
 
-nav.page{
-    height: 50%;
-    margin: 0 auto;
+.pagination{
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
 }
 
-nav.page ul{
-    width: 50%;
-    margin-bottom: 5%;
+.pagination li a{
+    color: #444;
+    margin: 0 4%;
+    text-decoration: none;
 }

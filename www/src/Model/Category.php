@@ -6,7 +6,7 @@ class Category{
     private $slug;
     private $name;
 
-    public function getID(): int{
+    public function getId(): int{
         return $this->id;
     }
 
