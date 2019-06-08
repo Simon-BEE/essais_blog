@@ -11,6 +11,8 @@ class PaginatedQuery{
     private $pdo;
     private $nbPage;
     private $currentPage;
+    private $nbItems;
+    private $count;
 
     public function __construct(string $queryCount, string $query, string $classMapping, string $url, int $perPage = 12){
         $this->queryCount = $queryCount;
@@ -24,16 +26,22 @@ class PaginatedQuery{
     public function getItems(): ?array{
         $this->nbPage = $this->getNbPages();
         $this->currentPage = $this->getCurrentPage();
+
         if ($this->currentPage > $this->nbPage) {
             throw new \Exception ('Pas de pages !');
         }
-        $offset = ($this->currentPage - 1) * $this->perPage;
-        $step1 = $this->pdo->query($this->query." LIMIT {$this->perPage} OFFSET {$offset}");
-        $step1->setFetchMode(\PDO::FETCH_CLASS, $this->classMapping);
-        return $step1->fetchAll();
+
+        if ($this->items === null) {
+            $offset = ($this->currentPage - 1) * $this->perPage;
+            $step1 = $this->pdo->query($this->query." LIMIT {$this->perPage} OFFSET {$offset}");
+            $step1->setFetchMode(\PDO::FETCH_CLASS, $this->classMapping);
+            $this->items = $step1->fetchAll();
+        }
+        return $this->items;
+        
     }
 
-    public function getNav(){
+    public function getNav():string{
         $test = '<nav class="navigation">';
         $test .= '<ul class="pagination">';
         for ($i = 1; $i <= $this->getNbPages(); $i++) :
@@ -44,12 +52,32 @@ class PaginatedQuery{
         return $test;
     }
 
-    // public function getNavArray(){
-    //     $navArray = [];
-    //     for ($i=0; $i < $a; $i++) { 
-    //         return;
-    //     }
-    // }
+    public function getNavArray(): array{
+        $uri = $this->url;
+        $nbPage = $this->getNbPages();
+        $navArray = [];
+        for ($i = 1; $i <= $nbPage; $i++) {
+            $url = $i == 1 ? $uri : $uri . "?page=" . $i;
+            $navArray[$i] = $url;
+        }
+        return $navArray;
+    }
+
+    public function getNavHtml():string{
+        $urls = $this->getNavArray();
+        $html = "";
+        foreach ($urls as $key => $url) {
+            $class = $this->getCurrentPage() === $key ? "active" : "";
+            $html .= "<li class=\"{$class}\"><a class=\"\" href=\"{$url}\">{$key}</a></li>";
+        }
+        return <<<HTML
+            <nav class="navigation">
+            <ul class="pagination">
+                {$html}
+            </ul>
+            </nav>
+HTML;
+    }
 
     private function getNbPages():int{
         if($this->count === null){

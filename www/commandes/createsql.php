@@ -62,13 +62,13 @@ for ($i = 0; $i < 50; $i++) {
 }
 
 
-for ($i = 0; $i < 5; $i++) { 
+for ($i = 0; $i < 50; $i++) { 
     $pdo->exec("INSERT INTO category SET name='{$faker->sentence(3, false)}', slug='{$faker->slug}'");
     $categories[] = $pdo->lastInsertId();
 }
 
 foreach ($posts as $post) {
-    $randomCategories = $faker->randomElements($categories, 2);
+    $randomCategories = $faker->randomElements($categories, rand(2, 4));
     foreach ($randomCategories as $category) {
         $pdo->exec("INSERT INTO post_category SET post_id = {$post}, category_id = {$category}");
     }

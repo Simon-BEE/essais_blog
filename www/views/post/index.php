@@ -24,4 +24,4 @@ $title = "Home";
 } ?>
 </section>
 
-<?php echo $paginatedQuery->getNav(); ?>
+<?php echo $paginatedQuery->getNavHtml(); ?>

@@ -23,7 +23,8 @@ $paginatedQuery = new App\PaginatedQuery(
         WHERE pc.category_id = {$categ->getId()}
         ORDER BY created_at DESC",
     Post::class,
-    $url
+    $url,
+    4
 );
 $posts = $paginatedQuery->getItems();
 
@@ -45,4 +46,4 @@ if ($categ->getSlug() !== $slug) {
 } ?>
 </section>
 
-<?php echo $paginatedQuery->getNav(); ?>
+<?php echo $paginatedQuery->getNavHtml(); ?>
