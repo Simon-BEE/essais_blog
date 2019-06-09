@@ -35,14 +35,20 @@ $title = "article : " . $post->getName();
 
 <section class="post">
     <article class="card">
-        <h1 class="card-title text-center"><?= $title; ?></h1>
-<?php foreach ($categories as $key => $category) :
-    if ($key > 0) { echo ', '; }
-    $category_url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
-?>
-    <a href="<?= $category_url ?>"><?= $category->getName() ?></a>
-<?php endforeach; ?>
-        <p class="card-text"><?= $post->getContent(); ?></p>
-        <p class="card-footer"><?= $post->getCreatedAt(); ?></p>
+        <h2 class="card-title text-center"><?= $post->getName(); ?></h2>
+        <div class="post-content">
+            <div class="post-cat">
+                <p>
+    <?php foreach ($categories as $key => $category) :
+        if ($key > 0) { echo ', '; }
+        $category_url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
+    ?>
+        <a href="<?= $category_url ?>"><?=substr($category->getName(),0,-1)?></a>
+    <?php endforeach; ?>
+                </p>
+            </div>
+            <p class="card-text"><?= $post->getContent(); ?></p>
+            <p class="card-footer"><?= $post->getCreatedAt(); ?></p>
+        </div>
     </article>
 </section>

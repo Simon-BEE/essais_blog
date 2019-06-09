@@ -24,7 +24,7 @@ $paginatedQuery = new App\PaginatedQuery(
         ORDER BY created_at DESC",
     Post::class,
     $url,
-    4
+    6
 );
 $posts = $paginatedQuery->getItems();
 

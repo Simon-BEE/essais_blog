@@ -56,7 +56,7 @@ $faker = Faker\Factory::create('fr_FR'); // créer une instance de la classe fac
 $posts = [];
 $categories= [];
 
-for ($i = 0; $i < 50; $i++) { 
+for ($i = 0; $i < 100; $i++) { 
     $pdo->exec("INSERT INTO post SET name='{$faker->sentence()}', slug='{$faker->slug}', content='{$faker->paragraphs(rand(3,12), true)}', created_at='{$faker->date} {$faker->time}'");
     $posts[] = $pdo->lastInsertId();
 }

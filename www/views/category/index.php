@@ -1,8 +1,5 @@
 <?php
 use App\Model\Post;
-use App\Connection;
-$pdo = Connection::getPDO();
-$categories = $pdo->query("SELECT * FROM category")->fetchAll(PDO::FETCH_CLASS, Post::class);
 
 $url = $router->url("categories");
 $paginatedQuery = new App\PaginatedQuery(
