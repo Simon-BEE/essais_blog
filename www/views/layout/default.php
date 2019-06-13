@@ -14,6 +14,9 @@
 <body>
     <header>
         <h1><span class="title">Cognizance</span> // <?= $title ?? 'hello' ?></h1>
+        <div class="search">
+                <input id="search" type="search" name="search" value=""><button id="btn"><i class="fas fa-search"></i></button>
+        </div>
         <div class="menu">
             <input type="checkbox" class="burger">
             <nav>

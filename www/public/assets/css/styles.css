@@ -5,7 +5,7 @@
 
 html, body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f6f8e5;
+    background-color: #fdfff0;
     color: #524E40;
     height: 100%;
 }
@@ -16,6 +16,10 @@ main{
 
 a{
     text-decoration: none;
+}
+
+p{
+    line-height: 19px;
 }
 
 /*************************MEDIA PRINCIPAL*************************/
@@ -88,12 +92,24 @@ a{
         z-index: 9999;
     }
 
+    .categories .list-cat{
+        display: grid;
+        grid-template-columns: 1fr!important;
+        text-align: center;
+    }
+
     .post-cat{
         margin-bottom: 5%!important;
     }
 
     article h2{
         height: 100px!important;
+    }
+}
+
+@media (max-width: 540px){
+    .search{
+        display: none!important;
     }
 }
 
@@ -106,6 +122,7 @@ a{
     .burger{
         display: none;
     }
+
 }
 
 @media screen and (min-width: 769px){
@@ -117,6 +134,7 @@ a{
     .burger{
         display: none;
     }
+
 }
 
 /*************************HEADER*************************/
@@ -150,13 +168,39 @@ header a:hover, header a:focus, header a:active{
     color: #C5B786;
 }
 
+/*************************SEARCH*************************/
+
+.search{
+    display: flex;
+}
+
+#search{
+    background: none;
+    border: none;
+    border-bottom: 1px solid #C5B786;
+    color: #C5B786;
+    text-transform: uppercase;
+}
+
+#btn{
+    background: none;
+    border: none;
+    color: #C5B786;
+}
+
+.highlight{
+    background-color: #C5B786;
+    color: #fff;
+}
+
 /*************************POSTS*************************/
 
 article{
     display: flex;
     flex-direction: column;
-    background-color: #fdfff0;
+    background-color: #f9f4e3;
     margin: 5%;
+    border-radius: 0 0 5px 5px;
 }
 
 article h2{
@@ -174,7 +218,6 @@ span{
 
 article .inside{
     display: flex;
-    border-radius: 0 0 5px 5px;
 }
 
 article .inside > *{
@@ -217,7 +260,7 @@ article .post-aside a{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding: 4%;
+    padding: 2% 4% 4%;
 }
 
 .post-content > *{
@@ -230,7 +273,6 @@ article .post-aside a{
 
 .post-content p{
     letter-spacing: 1px;
-    line-height: 19px;
 }
 
 .post-cat{
