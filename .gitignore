@@ -1,4 +1,5 @@
 .env
 www/vendor
-www/tests
+www/tests/ExoTest
 www/public/adminer.php
+.vscode/
