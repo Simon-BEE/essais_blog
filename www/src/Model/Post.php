@@ -1,5 +1,6 @@
 <?php
 namespace App\Model;
+
 use App\Helpers\Text;
 
 class Post
@@ -39,5 +40,4 @@ class Post
     {
         return htmlentities(Text::excerpt($this->getContent(), $length));
     }
-    
 }

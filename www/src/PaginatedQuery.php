@@ -1,6 +1,8 @@
 <?php
 namespace App;
-use App\Model\{Post, Category};
+
+use App\Model\Post;
+use App\Model\Category;
 
 class PaginatedQuery
 {
@@ -41,7 +43,6 @@ class PaginatedQuery
             $this->items = $step1->fetchAll();
         }
         return $this->items;
-        
     }
 
     public function getNav():string
@@ -87,7 +88,7 @@ HTML;
 
     private function getNbPages():int
     {
-        if($this->count === null) {
+        if ($this->count === null) {
             $this->count = $this->pdo->query($this->queryCount)->fetch()[0];
         }
         return (int)ceil($this->count / $this->perPage);

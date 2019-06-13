@@ -3,7 +3,7 @@ define("GENERATE_TIME_START", microtime(true));
 $basepath = dirname(__dir__). DIRECTORY_SEPARATOR;
 require $basepath.'vendor/autoload.php';
 
-if(getenv("ENV_DEV")){
+if (getenv("ENV_DEV")) {
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
     $whoops->register();
