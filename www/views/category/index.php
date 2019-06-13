@@ -13,7 +13,7 @@ $categories = $paginatedQuery->getItems();
 
 $title = "Catégories";
 ?>
-<section class="categories">
+<section class="categories seeking">
     <ul class="list-cat">
 <?php foreach ($categories as $category): ?>
         <li><a href="<?= $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]) ?>"><?= $category->getName(); ?></a></li>

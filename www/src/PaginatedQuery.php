@@ -2,7 +2,8 @@
 namespace App;
 use App\Model\{Post, Category};
 
-class PaginatedQuery{
+class PaginatedQuery
+{
     private $queryCount;
     private $query;
     private $classMapping;
@@ -14,7 +15,8 @@ class PaginatedQuery{
     private $nbItems;
     private $count;
 
-    public function __construct(string $queryCount, string $query, string $classMapping, string $url, int $perPage = 12){
+    public function __construct(string $queryCount, string $query, string $classMapping, string $url, int $perPage = 12)
+    {
         $this->queryCount = $queryCount;
         $this->query = $query;
         $this->classMapping = $classMapping;
@@ -23,12 +25,13 @@ class PaginatedQuery{
         $this->pdo = Connection::getPDO();
     }
 
-    public function getItems(): ?array{
+    public function getItems(): ?array
+    {
         $this->nbPage = $this->getNbPages();
         $this->currentPage = $this->getCurrentPage();
 
         if ($this->currentPage > $this->nbPage) {
-            throw new \Exception ('Pas de pages !');
+            throw new \Exception('Pas de pages !');
         }
 
         if ($this->items === null) {
@@ -41,7 +44,8 @@ class PaginatedQuery{
         
     }
 
-    public function getNav():string{
+    public function getNav():string
+    {
         $test = '<nav class="navigation">';
         $test .= '<ul class="pagination">';
         for ($i = 1; $i <= $this->getNbPages(); $i++) :
@@ -52,7 +56,8 @@ class PaginatedQuery{
         return $test;
     }
 
-    public function getNavArray(): array{
+    public function getNavArray(): array
+    {
         $uri = $this->url;
         $nbPage = $this->getNbPages();
         $navArray = [];
@@ -63,7 +68,8 @@ class PaginatedQuery{
         return $navArray;
     }
 
-    public function getNavHtml():string{
+    public function getNavHtml():string
+    {
         $urls = $this->getNavArray();
         $html = "";
         foreach ($urls as $key => $url) {
@@ -79,14 +85,16 @@ class PaginatedQuery{
 HTML;
     }
 
-    private function getNbPages():int{
-        if($this->count === null){
+    private function getNbPages():int
+    {
+        if($this->count === null) {
             $this->count = $this->pdo->query($this->queryCount)->fetch()[0];
         }
         return (int)ceil($this->count / $this->perPage);
     }
 
-    private function getCurrentPage():int{
+    private function getCurrentPage():int
+    {
         return URL::getPositiveInt('page', 1);
     }
 }

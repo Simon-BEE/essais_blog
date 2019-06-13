@@ -18,7 +18,7 @@ $title = "Home";
 
 ?>
 
-    <section class="articles">
+    <section class="articles seeking">
 <?php foreach($posts as $post){
     require 'card.php';
 } ?>

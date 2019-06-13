@@ -33,7 +33,7 @@ $title = "article : " . $post->getName();
 
 ?>
 
-<section class="post">
+<section class="post seeking">
     <article class="card">
         <h2 class="card-title text-center"><?= $post->getName(); ?></h2>
         <div class="post-content">

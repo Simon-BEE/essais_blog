@@ -1,20 +1,24 @@
 <?php
 namespace App\Model;
 
-class Category{
+class Category
+{
     private $id;
     private $slug;
     private $name;
 
-    public function getId(): int{
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function getSlug(): string{
+    public function getSlug(): string
+    {
         return $this->slug;
     }
 
-    public function getName(): string{
+    public function getName(): string
+    {
         return $this->name;
     }
 }
