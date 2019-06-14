@@ -200,7 +200,7 @@ article{
     flex-direction: column;
     background-color: #f9f4e3;
     margin: 5%;
-    border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px!important;
 }
 
 article h2{
@@ -234,6 +234,12 @@ article .inside .time{
 article .post-aside a{
     float: right;
     color: #C5B786;
+}
+
+.unique{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /*************************CATEGORIES*************************/
@@ -277,6 +283,19 @@ article .post-aside a{
 
 .post-cat{
     margin: 0 0 2% 0;
+}
+
+.index-cat{
+    font-size: 0.8em;
+    padding: 3%;
+    text-align: center;
+    background-color: #f9f4e3;
+    border-top: 1px solid #C5B786;
+    border-radius: 0 0 5px 5px!important;
+}
+
+.index-cat a{
+    color: #1B1B1E;
 }
 
 /*************************PAGINATION*************************/

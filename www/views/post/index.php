@@ -14,13 +14,20 @@ $paginatedQuery = new App\PaginatedQuery(
 );
 $posts = $paginatedQuery->getItems();
 
-$title = "Home";
+$postById = [];
+foreach ($posts as $post) {
+    $postById[$post->getId()] = $post;
+    $categories = App\CategoriesQuery::queryCategories($post->getId());
+    $postById[$post->getId()]->setCategories($categories);
+}
 
+$title = "Home";
 ?>
 
     <section class="articles seeking">
 <?php foreach($posts as $post){
-    require 'card.php';
+        $categories = $post->getCategories();
+        require 'card.php';
 } ?>
 </section>
 

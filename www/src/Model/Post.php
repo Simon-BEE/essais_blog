@@ -10,6 +10,7 @@ class Post
     private $slug;
     private $content;
     private $created_at;
+    private $categories = [];
     
     public function getId():int
     {
@@ -36,8 +37,24 @@ class Post
         return (new \DateTime($this->created_at))->format($format);
     }
 
+    public function setCategories($category){
+        $this->categories = $category;
+    }
+
+    public function getCategories(){
+        return $this->categories;
+    }
+
     public function getExcerpt(int $length):string
     {
         return htmlentities(Text::excerpt($this->getContent(), $length));
     }
 }
+
+// $postById = [];
+// foreach ($posts as $post) {
+//    $postById[$post->getId()] = $post;
+// }
+// foreach ($categories as $category) {
+//    $postById[$category->post_id]->setCategories($category);
+// }

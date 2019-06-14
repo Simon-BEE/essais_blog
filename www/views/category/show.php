@@ -38,10 +38,18 @@ if ($categ->getSlug() !== $slug) {
     header('location: '.$url);
     exit();
 }
+
+$postById = [];
+foreach ($posts as $post) {
+    $postById[$post->getId()] = $post;
+    $categories = App\CategoriesQuery::queryCategories($post->getId());
+    $postById[$post->getId()]->setCategories($categories);
+}
 ?>
 
 <section class="articles">
 <?php foreach($posts as $post){
+    $categories = $post->getCategories();
     require dirname(__dir__).'/post/card.php';
 } ?>
 </section>
