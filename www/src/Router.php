@@ -16,12 +16,12 @@ class Router
         $this->router->map('GET', $uri, $file, $name);
         return $this;
     }
-    /*
+
     public function post(string $uri, string $file, string $name):self{
         $this->router->map( 'POST', $uri, $file, $name);
         return $this;
     }
-    */
+
 
     public function url(string $name, array $params = []):string
     {

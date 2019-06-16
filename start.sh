@@ -6,7 +6,7 @@ sleep 4;
 
 docker exec blog composer update
 
-docker exec blog pgp commandes/createsql.php
+docker exec blog php commandes/createsql.php
 
 echo
 echo "#-----------CREATED-----------#"

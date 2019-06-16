@@ -23,7 +23,8 @@
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/categories">Categories</a></li>
-                    <li><a href="#">Profile</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/connection">Login</a></li>
                 </ul>
             </nav>
         </div>

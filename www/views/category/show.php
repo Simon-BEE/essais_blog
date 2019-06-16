@@ -7,20 +7,31 @@ $pdo = Connection::getPDO();
 $id = (int)$params['id'];
 $slug = $params['slug'];
 
-$sql3 = "SELECT * FROM category WHERE id =?";
-$state3 = $pdo->prepare($sql3);
-$state3->execute([$id]);
-$state3->setFetchMode(PDO::FETCH_CLASS, Post::class);
-$categ = $state3->fetch();
-$title = "Category : ".$categ->getName();
+$statement = $pdo->prepare("SELECT * FROM category WHERE id =?");
+$statement->execute([$id]);
+$statement->setFetchMode(PDO::FETCH_CLASS, Category::class);
+$category = $statement->fetch();
 
-$url = $router->url("category", ["id" => $categ->getId(), "slug" => $categ->getSlug()]);
+if (!$category) {
+    throw new Exception('Aucune catégorie ne correspond à cet Id !');
+}
+
+if ($category->getSlug() !== $slug) {
+    $url = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
+    http_response_code(301);
+    header('location: '.$url);
+    exit();
+}
+
+$title = "Category : ".$category->getName();
+
+$url = $router->url("category", ["id" => $category->getId(), "slug" => $category->getSlug()]);
 $paginatedQuery = new App\PaginatedQuery(
-    "SELECT count(category_id) FROM post_category WHERE category_id = {$categ->getId()}", 
+    "SELECT count(category_id) FROM post_category WHERE category_id = {$category->getId()}", 
     "SELECT p.*
         FROM post p
         JOIN post_category pc ON pc.post_id = p.id
-        WHERE pc.category_id = {$categ->getId()}
+        WHERE pc.category_id = {$category->getId()}
         ORDER BY created_at DESC",
     Post::class,
     $url,
@@ -28,28 +39,29 @@ $paginatedQuery = new App\PaginatedQuery(
 );
 $posts = $paginatedQuery->getItems();
 
-if (!$posts) {
-    throw new Exception('Aucune catégorie ne correspond à cet Id !');
-}
+$ids = array_map(function (Post $post) {
+    return $post->getId();
+}, $posts);
 
-if ($categ->getSlug() !== $slug) {
-    $url = $router->url('category', ['id' => $categ->getId(), 'slug' => $categ->getSlug()]);
-    http_response_code(301);
-    header('location: '.$url);
-    exit();
-}
+$categories = Connection::getPDO()
+->query("SELECT c.*, pc.post_id
+        FROM post_category pc
+        LEFT JOIN category c ON pc.category_id = c.id
+        WHERE post_id IN (" . implode(', ', $ids) . ")")
+->fetchAll(\PDO::FETCH_CLASS, Category::class);
 
-$postById = [];
+$postsById = [];
 foreach ($posts as $post) {
-    $postById[$post->getId()] = $post;
-    $categories = App\CategoriesQuery::queryCategories($post->getId());
-    $postById[$post->getId()]->setCategories($categories);
+    $postsById[$post->getId()] = $post;
+}
+foreach ($categories as $category) {
+    //dd($postsById);
+    $postsById[$category->post_id]->setCategories($category);
 }
 ?>
 
 <section class="articles">
-<?php foreach($posts as $post){
-    $categories = $post->getCategories();
+<?php foreach($postsById as $post){
     require dirname(__dir__).'/post/card.php';
 } ?>
 </section>

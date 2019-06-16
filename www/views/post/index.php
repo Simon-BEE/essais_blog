@@ -1,6 +1,5 @@
 <?php
-use App\Model\Post;
-use App\Helpers\Text;
+use App\Model\{Post, Category};
 use App\PaginatedQuery;
 use App\Connection;
 
@@ -14,19 +13,30 @@ $paginatedQuery = new App\PaginatedQuery(
 );
 $posts = $paginatedQuery->getItems();
 
-$postById = [];
+$ids = array_map(function (Post $post) {
+    return $post->getId();
+}, $posts);
+
+$categories = Connection::getPDO()
+->query("SELECT c.*, pc.post_id
+        FROM post_category pc
+        LEFT JOIN category c ON pc.category_id = c.id
+        WHERE post_id IN (" . implode(', ', $ids) . ")")
+->fetchAll(\PDO::FETCH_CLASS, Category::class);
+
+$postsById = [];
 foreach ($posts as $post) {
-    $postById[$post->getId()] = $post;
-    $categories = App\CategoriesQuery::queryCategories($post->getId());
-    $postById[$post->getId()]->setCategories($categories);
+    $postsById[$post->getId()] = $post;
+}
+foreach ($categories as $category) {
+    $postsById[$category->post_id]->setCategories($category);
 }
 
 $title = "Home";
 ?>
 
     <section class="articles seeking">
-<?php foreach($posts as $post){
-        $categories = $post->getCategories();
+<?php foreach($postsById as $post){
         require 'card.php';
 } ?>
 </section>

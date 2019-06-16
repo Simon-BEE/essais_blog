@@ -37,12 +37,13 @@ class Post
         return (new \DateTime($this->created_at))->format($format);
     }
 
-    public function setCategories($category){
-        $this->categories = $category;
-    }
-
-    public function getCategories(){
+    public function getCategories(): array
+    {
         return $this->categories;
+    }
+    public function setCategories(Category $category): void
+    {
+        $this->categories[] = $category;
     }
 
     public function getExcerpt(int $length):string
@@ -50,11 +51,3 @@ class Post
         return htmlentities(Text::excerpt($this->getContent(), $length));
     }
 }
-
-// $postById = [];
-// foreach ($posts as $post) {
-//    $postById[$post->getId()] = $post;
-// }
-// foreach ($categories as $category) {
-//    $postById[$category->post_id]->setCategories($category);
-// }

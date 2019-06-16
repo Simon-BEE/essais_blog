@@ -24,7 +24,7 @@ if ($post->getSlug() !== $slug) {
     exit();
 }
 
-$categories = $post->getCategories();
+$categories = \App\CategoriesQuery::queryCategories($post->getId());
 $title = "article : " . $post->getName();
 
 ?>

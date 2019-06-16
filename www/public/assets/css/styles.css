@@ -298,6 +298,80 @@ article .post-aside a{
     color: #1B1B1E;
 }
 
+/*************************CONNECTION*************************/
+
+.connection, .connection form{
+    padding: 2% 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.connection h2{
+    font-size: 2em;
+    color: #1B1B1E;
+    letter-spacing: 3px;
+}
+
+.connection > *, form > *{
+    margin: 4% 0;
+}
+
+.connection form .register{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "text text" "mail mail2" "pass pass2";
+}
+
+.text{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: ". text1 .";
+    grid-area: text;
+}
+
+.text input{ grid-area: text1; }
+.mail { grid-area: mail; }
+.mail2 { grid-area: mail2; }
+.pass { grid-area: pass; }
+.pass2 { grid-area: pass2; }
+
+.connection form p a{
+    color: #524E40;
+    font-size: .9em;
+}
+
+.connection form p a:hover{
+    color: #C5B786;
+}
+
+.connection input{
+    background: none;
+    border: none;
+    border-bottom: 1px solid #C5B786;
+    color: #C5B786;
+    margin: 10%;
+    text-align: center;
+}
+
+.connection button{
+    border:none;
+    background-color: #1B1B1E;
+    color: #C5B786;
+    padding: 13%;
+    border-radius: 10%;
+    letter-spacing: 3px;
+    border: 2px solid #f9f4e3;
+}
+
+.connection button:hover, .connection button:active, .connection button:focus{
+    background-color: #524E40;
+    color: #fdfff0;
+}
 /*************************PAGINATION*************************/
 
 .navigation{

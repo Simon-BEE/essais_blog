@@ -9,9 +9,9 @@
     </div>
     <div class="index-cat">
         <p>
-    <?php foreach ($categories as $key => $category) :
+    <?php foreach ($post->getCategories() as $key => $category) :
         if ($key > 0) { echo ', '; }
-        $category_url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
+        $category_url = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
     ?>
         <a href="<?= $category_url ?>"><?=substr($category->getName(),0,-1)?></a>
     <?php endforeach; ?>
