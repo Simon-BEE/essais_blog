@@ -21,4 +21,12 @@ class Category
     {
         return $this->name;
     }
+
+    public function getUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("category", [
+            "slug" => $this->getSlug(),
+            "id" => $this->getId()
+        ]);
+    }
 }

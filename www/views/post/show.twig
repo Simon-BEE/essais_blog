@@ -1,0 +1,16 @@
+<section class="post seeking">
+    <article class="card">
+        <h2 class="card-title text-center">{{ post.name }}</h2>
+        <div class="post-content">
+            <div class="post-cat">
+                <p>
+                {% for category in categories %}
+                    <a href="{{ category.url }}">{{ category.name }}</a>
+                {% endfor %}
+                </p>
+            </div>
+            <p class="card-text">{{ post.content }}</p>
+            <p class="card-footer">{{ post.created_at | date('d/m/Y h:i')}}</p>
+        </div>
+    </article>
+</section>

@@ -50,4 +50,12 @@ class Post
     {
         return htmlentities(Text::excerpt($this->getContent(), $length));
     }
+
+    public function getUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("post", [
+            "slug" => $this->getSlug(),
+            "id" => $this->getId()
+        ]);
+    }
 }
