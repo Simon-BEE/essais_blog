@@ -1,11 +1,15 @@
 <?php
 namespace App;
+
 use \App\Controller\RouterController;
+use \App\Controller\Database\DatabaseController;
 class App{
     private static $_instance;
     public $title;
     private $router;
     private $startTime;
+    private $db_instance;
+    
     public static function getInstance()
     {
         if (is_null(self::$_instance)) {
@@ -13,6 +17,7 @@ class App{
         }
         return self::$_instance;
     }
+    
     public static function load()
     {
         if (getenv("ENV_DEV")) {
@@ -38,6 +43,7 @@ class App{
             }
         }
     }
+
     public function getRouter($basePath = "/var/www"):RouterController
     {
         if(is_null($this->router)){
@@ -45,12 +51,31 @@ class App{
         }
         return $this->router;
     }
+
     public function setStartTime()
     {
         $this->startTime = microtime(true);
     }
+
     public function getDebugTime()
     {
         return number_format((microtime(true) - $this->startTime) * 1000, 2);
+    }
+
+    public function getTable(string $nameTable)
+    {
+        $nameTable = "\\App\\Model\\Table\\".ucfirst($nameTable)."Table";
+        return new $nameTable($this->getDb());
+    }
+    public function getDb(): DatabaseController
+    {
+        if (is_null($this->db_instance)) {
+            $this->db_instance = new DatabaseController(
+                getenv('MYSQL_DATABASE'),
+                getenv('MYSQL_USER'),
+                getenv('MYSQL_PASSWORD'),
+                getenv('MYSQL_HOST'));
+        }
+        return $this->db_instance;
     }
 }

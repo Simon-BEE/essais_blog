@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="{{ source('www/public/assets/css/styles.css', ignore_missing = true) }}" /> 
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css" /> 
     
-    <title>{% block title1 %}{{ title }}{% endblock %}</title>
+    <title>Cognizance | {% block title1 %}{{ title }}{% endblock %}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 </head>
 
 <body>
     <header>
-        <h1><span class="title">Cognizance</span> // <?= $title ?? 'hello' ?></h1>
+        <h1><span class="title">Cognizance</span> // {% block title2 %}{{ title }}{% endblock %}</h1>
         <div class="search">
                 <input id="search" type="search" name="search" value=""><button id="btn"><i class="fas fa-search"></i></button>
         </div>
@@ -24,7 +24,7 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/categories">Categories</a></li>
                     <li><a href="/profile">Profile</a></li>
-                    <li><a href="/connection">Login</a></li>
+                    <li><a href="/user">Login</a></li>
                 </ul>
             </nav>
         </div>
@@ -37,7 +37,7 @@
         <p>by <span>SIMON</span> | {{ debugTime }} ms</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="<?= $_SERVER['REQUEST_SCHEME']. '://' . $_SERVER['HTTP_HOST'] ?>/assets/js/scripts.js"></script>
+    <script src="/assets/js/scripts.js"></script>
 </body>
 
 </html>

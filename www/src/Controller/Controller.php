@@ -1,16 +1,16 @@
 <?php
-
 namespace App\Controller;
-
-class Controller
+class Controller 
 {
     private $twig;
     private $app;
+
     protected function render(string $view, array $variables = [])
     {
         $variables["debugTime"] = $this->getApp()->getDebugTime();
         echo $this->getTwig()->render($view.".twig", $variables);
     }
+
     public function getTwig()
     {
         if (is_null($this->twig)) {
@@ -19,6 +19,7 @@ class Controller
         }
         return $this->twig;
     }
+
     protected function getApp()
     {
         if(is_null($this->app)){
@@ -26,8 +27,14 @@ class Controller
         }
         return $this->app;
     }
-    protected function getRouter(Type $var = null)
+
+    protected function generateUrl(string $routeName, array $params = [])
     {
-        return $this->getApp()->getRouter();
+        return $this->getApp()->getRouter()->url($routeName, $params);
+    }
+
+    protected function loadModel(string $nameTable): void
+    {
+        $this->$nameTable = $this->getApp()->getTable($nameTable);
     }
 }

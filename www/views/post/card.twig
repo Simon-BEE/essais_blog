@@ -9,7 +9,7 @@
     </div>
     <div class="index-cat">
         <p>
-        {% for category in categories %}
+        {% for category in post.categories %}
             <a href="{{ category.url }}">{{ category.name }}</a>
         {% endfor %}
         </p>

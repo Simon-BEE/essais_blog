@@ -1,9 +1,9 @@
 <?php
-namespace App\Model;
+namespace App\Model\Entity;
 
 use App\Helpers\Text;
 
-class Post
+class PostEntity extends Entity
 {
     private $id;
     private $name;
@@ -41,7 +41,8 @@ class Post
     {
         return $this->categories;
     }
-    public function setCategories(Category $category): void
+    
+    public function setCategories(CategoryEntity $category): void
     {
         $this->categories[] = $category;
     }
