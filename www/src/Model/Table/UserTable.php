@@ -19,4 +19,9 @@ class UserTable extends Table
             ]
         );
     }
+
+    public function allByLimit(int $limit, int $offset)
+    {
+        return $this->query("SELECT * FROM {$this->table} LIMIT {$limit}  OFFSET {$offset}", null, false, null);
+    }
 }

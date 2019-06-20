@@ -1,0 +1,14 @@
+{% extends "/layout/admindefault.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<section class="admin-categories">
+{% for user in users %}
+    <article class="onePost">
+    <h3>{{ user.username }}</h3>
+    </article>
+{% endfor %}
+</section>
+{{ paginate | raw }}
+{% endblock %}
