@@ -1,11 +1,7 @@
 <?php
 namespace App\Controller;
 
-use \App\Model\Entity\PostEntity;
-use \App\Model\Entity\CategoryEntity;
-use \App\Model\Table\PostTable;
-use \App\Model\Table\CategoryTable;
-use \App\Controller\Database\DatabaseController;
+use \Core\Controller\Controller;
 
 class PostController extends Controller
 {
@@ -17,7 +13,7 @@ class PostController extends Controller
 
     public function all()
     {
-        $paginatedQuery = new PaginatedQueryController(
+        $paginatedQuery = new PaginatedQueryAppController(
             $this->post,
             $this->generateUrl('home')
         );
@@ -45,7 +41,7 @@ class PostController extends Controller
         
         $title = "article : " . $post->getName();
         
-        $this->render("post/show",[
+        $this->render("post/show", [
             "title" => $title,
             "categories" => $categories,
             "post" => $post

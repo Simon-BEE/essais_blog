@@ -1,9 +1,8 @@
 <?php
 namespace App\Model\Table;
 
-use \App\Model\Entity\PostEntity;
-use \App\Model\Entity\CategoryEntity;
-use \App\Controller\Database\DatabaseController;
+use Core\Model\Table;
+use App\Model\Entity\PostEntity;
 
 class PostTable extends Table
 {
@@ -14,10 +13,9 @@ class PostTable extends Table
             JOIN post_category as pc 
             ON pc.post_id = p.id 
             WHERE pc.category_id = {$id}", null, true);
-        }else{
+        } else {
             return $this->query("SELECT COUNT(id) as nbrow FROM {$this->table}", null, true, null);
         }
-        
     }
 
     public function allByLimit(int $limit, int $offset)
@@ -46,7 +44,8 @@ class PostTable extends Table
             JOIN post_category as pc 
             ON pc.post_id = p.id 
             WHERE pc.category_id = {$id} 
-            LIMIT {$limit} OFFSET {$offset}");
+            LIMIT {$limit} OFFSET {$offset}"
+        );
         
         $ids = array_map(function (PostEntity $post) {
             return $post->getId();
@@ -62,5 +61,11 @@ class PostTable extends Table
             $postById[$category->post_id]->setCategories($category);
         }
         return $postById;
+    }
+
+    public function insert($name, $slug, $content)
+    {
+        $created_at = date("Y-m-d H:i:s");
+        return $this->db->query("INSERT INTO {$this->table} (name, slug, content, created_at) VALUES ('$name', '$slug', '$content', '$created_at')");
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace App\Model\Entity;
 
+use \Core\Model\Entity;
+
 class UserEntity extends Entity
 {
     private $id;

@@ -1,10 +1,14 @@
 <?php
 namespace App;
 
-use \App\Controller\RouterController;
-use \App\Controller\Database\DatabaseController;
-class App{
-    private static $_instance;
+use \Core\Controller\RouterController;
+use \Core\Controller\URLController;
+use \Core\Controller\Database\DatabaseMysqlController;
+use \Core\Controller\Database\DatabaseController;
+
+class App
+{
+    private static $INSTANCE;
     public $title;
     private $router;
     private $startTime;
@@ -12,10 +16,10 @@ class App{
     
     public static function getInstance()
     {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new App();
+        if (is_null(self::$INSTANCE)) {
+            self::$INSTANCE = new App();
         }
-        return self::$_instance;
+        return self::$INSTANCE;
     }
     
     public static function load()
@@ -26,7 +30,7 @@ class App{
             $whoops->register();
         }
         
-        $numPage = URL::getPositiveInt('page');
+        $numPage = URLController::getPositiveInt('page');
         
         if ($numPage !== null) {
             if ($numPage == 1) {
@@ -46,7 +50,7 @@ class App{
 
     public function getRouter($basePath = "/var/www"):RouterController
     {
-        if(is_null($this->router)){
+        if (is_null($this->router)) {
             $this->router = new RouterController($basePath . 'views');
         }
         return $this->router;
@@ -70,11 +74,12 @@ class App{
     public function getDb(): DatabaseController
     {
         if (is_null($this->db_instance)) {
-            $this->db_instance = new DatabaseController(
+            $this->db_instance = new DatabaseMysqlController(
                 getenv('MYSQL_DATABASE'),
                 getenv('MYSQL_USER'),
                 getenv('MYSQL_PASSWORD'),
-                getenv('MYSQL_HOST'));
+                getenv('MYSQL_HOST')
+            );
         }
         return $this->db_instance;
     }

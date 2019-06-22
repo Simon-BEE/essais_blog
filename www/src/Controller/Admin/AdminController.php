@@ -1,8 +1,9 @@
 <?php
 namespace App\Controller\Admin;
 
-use App\Controller\Controller;
-use App\Controller\PaginatedQueryController;
+use \Core\Controller\Controller;
+use \Core\Controller\PaginatedQueryController;
+use App\Controller\PaginatedQueryAppController;
 
 class AdminController extends Controller
 {
@@ -21,16 +22,16 @@ class AdminController extends Controller
         $title = "Index";
 
         $this->render("admin/index", [
-            "title" => $title, 
-            "post" => $latestPost, 
-            "category" => $latestCategory, 
+            "title" => $title,
+            "post" => $latestPost,
+            "category" => $latestCategory,
             "user" => $latestUser
             ]);
     }
 
     public function posts()
     {
-        $paginatedQuery = new PaginatedQueryController(
+        $paginatedQuery = new PaginatedQueryAppController(
             $this->post,
             $this->generateUrl('admin_posts')
         );
@@ -39,15 +40,15 @@ class AdminController extends Controller
         $title = "Posts";
 
         $this->render("admin/posts", [
-            "title" => $title, 
-            "posts" => $postById, 
+            "title" => $title,
+            "posts" => $postById,
             "paginate" => $paginatedQuery->getNavHtml()
             ]);
     }
 
     public function categories()
     {
-        $paginatedQuery = new PaginatedQueryController(
+        $paginatedQuery = new PaginatedQueryAppController(
             $this->category,
             $this->generateUrl('admin_categories')
         );
@@ -56,15 +57,15 @@ class AdminController extends Controller
         $title = "Categories";
 
         $this->render("admin/categories", [
-            "title" => $title, 
-            "categories" => $categories, 
+            "title" => $title,
+            "categories" => $categories,
             "paginate" => $paginatedQuery->getNavHtml()
             ]);
     }
 
     public function users()
     {
-        $paginatedQuery = new PaginatedQueryController(
+        $paginatedQuery = new PaginatedQueryAppController(
             $this->user,
             $this->generateUrl('admin_users')
         );
@@ -73,8 +74,8 @@ class AdminController extends Controller
         $title = "Users";
 
         $this->render("admin/users", [
-            "title" => $title, 
-            "users" => $users, 
+            "title" => $title,
+            "users" => $users,
             "paginate" => $paginatedQuery->getNavHtml()
             ]);
     }

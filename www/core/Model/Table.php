@@ -1,6 +1,7 @@
 <?php
-namespace App\Model\Table;
-use App\Controller\Database\DatabaseController;
+namespace Core\Model;
+
+use Core\Controller\Database\DatabaseController;
 class Table
 {
     protected $db;
@@ -42,7 +43,7 @@ class Table
 
     public function update($column, $news, $id)
     {
-        $test = $this->db->query("UPDATE {$this->table} SET $column = '$news'  WHERE id = $id");
+        return $this->db->query("UPDATE {$this->table} SET $column = '$news'  WHERE id = $id");
     }
 
     public function allWithoutLimit()

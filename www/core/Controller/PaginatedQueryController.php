@@ -1,8 +1,7 @@
 <?php
-namespace App\Controller;
+namespace Core\Controller;
 
-use App\Model\Table\Table;
-use App\URL;
+use \Core\Model\Table;
 
 class PaginatedQueryController
 {
@@ -60,26 +59,12 @@ class PaginatedQueryController
         }
         return $navArray;
     }
-    public function getNavHtml(): string
+    
+    protected function getCurrentPage(): int
     {
-        $urls = $this->getNav();
-        $html = "";
-        foreach ($urls as $key => $url) {
-            $class = $this->getCurrentPage() == $key ? " active" : "";
-            $html .= "<li class=\"page-item {$class}\"><a class=\"page-link\" href=\"{$url}\">{$key}</a></li>";
-        }
-        return <<<HTML
-        <nav class="Page navigation">
-            <ul class="pagination justify-content-center">
-                {$html}
-            </ul>
-        </nav>
-HTML;
+        return URLController::getPositiveInt('page', 1);
     }
-    private function getCurrentPage(): int
-    {
-        return URL::getPositiveInt('page', 1);
-    }
+    
     private function getNbPages(?int $id = null): float
     {
         if ($this->count === null) {

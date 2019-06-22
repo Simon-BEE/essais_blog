@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller\Database;
+namespace Core\Controller\Database;
 use \PDO;
-class DatabaseController
+class DatabaseMysqlController extends DatabaseController
 {
     private $pdo;
     

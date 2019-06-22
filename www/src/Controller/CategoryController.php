@@ -1,7 +1,10 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Entity\{CategoryEntity, PostEntity};
+use Core\Controller\Controller;
+use App\Model\Entity\CategoryEntity;
+use App\Model\Entity\PostEntity;
+use App\Controller\PaginatedQueryAppController;
 
 class CategoryController extends Controller
 {
@@ -13,7 +16,7 @@ class CategoryController extends Controller
 
     public function all()
     {
-        $paginatedQuery = new PaginatedQueryController(
+        $paginatedQuery = new PaginatedQueryAppController(
             $this->category,
             $this->generateUrl('categories')
         );
@@ -21,8 +24,8 @@ class CategoryController extends Controller
         $categories = $paginatedQuery->getItems();
         $title = "Catégories";
         $this->render("category/all", [
-            "title" => $title, 
-            "categories" => $categories, 
+            "title" => $title,
+            "categories" => $categories,
             "paginate" => $paginatedQuery->getNavHTML()
             ]);
     }
@@ -45,14 +48,14 @@ class CategoryController extends Controller
         $title = 'categorie : ' . $category->getName();
         $uri = $this->generateUrl("category", ["id" => $category->getId(), "slug" => $category->getSlug()]);
 
-        $paginatedQuery = new PaginatedQueryController(
+        $paginatedQuery = new PaginatedQueryAppController(
             $this->post,
             $this->generateUrl('category', ["id" => $category->getId(), "slug" => $category->getSlug()])
         );
 
         $postById = $paginatedQuery->getItemsInId($id);
         
-        $this->render("category/show",[
+        $this->render("category/show", [
             "title" => $title,
             "posts" => $postById,
             "paginate" => $paginatedQuery->getNavHTML()

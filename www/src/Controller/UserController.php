@@ -10,7 +10,6 @@ class UserController extends Controller
 
     public function index()
     {
-        dd($_SERVER);
         $page = $match['name'];
         // if (is_null($page)) {
         //     $title = "Connection";
@@ -19,21 +18,21 @@ class UserController extends Controller
         if (!empty($_POST) && empty($_POST['robot'])) {
             $user = $this->user->selectUser($_POST['login']);
 
-            if($page === 'connection2' && !empty($_POST['passwd'] && !empty($user))){
-                if(password_verify($_POST['passwd'], $user->password)){
+            if ($page === 'connection2' && !empty($_POST['passwd'] && !empty($user))) {
+                if (password_verify($_POST['passwd'], $user->password)) {
                     die('bienvenue');
-                }else{
+                } else {
                     die('Password error');
                 }
             }
-            if($page === 'register2' && !empty($_POST['email_r'] && empty($user))){
+            if ($page === 'register2' && !empty($_POST['email_r'] && empty($user))) {
                 $login = htmlspecialchars($_POST['login']);
                 if ($_POST['email_r'] == $_POST['email2_r'] && $_POST['passwd_r'] == $_POST['passwd2_r']) {
                     $email = htmlspecialchars($_POST['email_r']);
                     $password = password_hash($_POST['passwd_r'], PASSWORD_DEFAULT);
                     UsersQuery::insertUser($login, $password, $email);
                     die('Enregistrement ok');
-                }else{
+                } else {
                     die('Verify error');
                 }
             }

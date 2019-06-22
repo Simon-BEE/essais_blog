@@ -22,7 +22,7 @@ $app->getRouter($basePath)
         ->get('/admin/users', 'admin\Admin#users', 'admin_users')
         ->get('/admin/posts/[*:slug]-[i:id]', 'admin\PostsEdit#postsEdit', 'admin_posts_edit')
         ->post('/admin/postUpdate', 'admin\PostsEdit#postUpdate', 'admin_post_update')
+        ->post('/admin/postInsert', 'admin\PostsEdit#postInsert', 'admin_post_insert')
         ->get('/admin/category/[*:slug]-[i:id]', 'admin\CategoryEdit#categoryEdit', 'admin_category_edit')
         ->post('/admin/categoryUpdate', 'admin\CategoryEdit#categoryUpdate', 'admin_category_update')
         ->run();
-        

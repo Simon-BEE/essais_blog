@@ -9,3 +9,9 @@
         <option value="dog">Dog</option>
     </select>
 </form>
+
+<form action="/admin/postInsert" method="post">
+    <input type="text" name="name" value="">
+    <input type="text" name="slug" value="">
+    <textarea name="content"cols="30" rows="10"></textarea>
+</form>

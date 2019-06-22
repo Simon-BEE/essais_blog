@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace Core\Controller;
 class RouterController
 {
     private $router;
@@ -32,7 +32,7 @@ class RouterController
                 [$controller, $methode] = explode("#", $match['target']);
                 $controller = "App\\Controller\\".ucfirst($controller)."Controller";
                 //try {
-                    (new $controller())->$methode(... array_values($match['params']));
+                    (new $controller())->$methode(...array_values($match['params']));
                 //} catch (\Exception $e) {
                 //    header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
                 //    exit();

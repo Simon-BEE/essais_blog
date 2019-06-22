@@ -1,7 +1,7 @@
 <?php
-namespace App\Helpers;
+namespace Core\Controller\Helpers;
 
-class Text
+class TextController
 {
     public static function excerpt(string $content, int $limit = 100):string
     {

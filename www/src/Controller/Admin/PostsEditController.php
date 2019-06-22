@@ -1,8 +1,8 @@
 <?php
 namespace App\Controller\Admin;
 
-use App\Controller\Controller;
-use App\Controller\PaginatedQueryController;
+use \Core\Controller\Controller;
+use \Core\Controller\PaginatedQueryController;
 
 class PostsEditController extends Controller
 {
@@ -30,7 +30,7 @@ class PostsEditController extends Controller
         
         $title = $post->getName();
         
-        $this->render("admin/postsEdit",[
+        $this->render("admin/postsEdit", [
             "title" => $title,
             "categories" => $categories,
             "post" => $post,
@@ -41,7 +41,7 @@ class PostsEditController extends Controller
     public function postUpdate()
     {
         if (isset($_POST)) {
-            $id = $_POST['post_id'];;
+            $id = $_POST['post_id'];
             if (!empty($_POST['post_name'])) {
                 (string)$name = $_POST['post_name'];
                 $this->post->update("name", $name, $id);
@@ -49,8 +49,12 @@ class PostsEditController extends Controller
             }
             if (!empty($_POST['post_slug'])) {
                 (string)$slug = $_POST['post_slug'];
-                $this->post->update("slug", $slug, $id);
-                header('location: /admin/posts');
+                if (preg_match("#^[a-zA-Z0-9_-]*$#", $slug)) {
+                    $this->post->update("slug", $slug, $id);
+                    header('location: /admin/posts');
+                } else {
+                    dd('error');
+                }
             }
             if (!empty($_POST['post_content'])) {
                 (string)$content = $_POST['post_content'];
@@ -64,6 +68,21 @@ class PostsEditController extends Controller
                 header('location: /admin/posts');
             }
             */
+        }
+    }
+
+    public function postInsert()
+    {
+        if (isset($_POST)) {
+            $name = htmlspecialchars($_POST['name']);
+            $slug = htmlspecialchars($_POST['slug']);
+            $content = htmlspecialchars($_POST['content']);
+            if (preg_match("#^[a-zA-Z0-9_-]*$#", $slug)) {
+                $this->post->insert($name, $slug, $content);
+                header('location: /admin/posts');
+            } else {
+                dd('error');
+            }
         }
     }
 }

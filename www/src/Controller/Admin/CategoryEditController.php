@@ -1,8 +1,8 @@
 <?php
 namespace App\Controller\Admin;
 
-use App\Controller\Controller;
-use App\Controller\PaginatedQueryController;
+use Core\Controller\Controller;
+use Core\Controller\PaginatedQueryController;
 
 class CategoryEditController extends Controller
 {
@@ -33,7 +33,7 @@ class CategoryEditController extends Controller
 
         $title = $category->getName();
         
-        $this->render("admin/categoryEdit",[
+        $this->render("admin/categoryEdit", [
             "title" => $title,
             "category" => $category,
             "posts" => $postById
@@ -43,7 +43,8 @@ class CategoryEditController extends Controller
     public function categoryUpdate()
     {
         if (isset($_POST)) {
-            $id = $_POST['cat_id'];;
+            $id = $_POST['cat_id'];
+            ;
             if (!empty($_POST['cat_name'])) {
                 (string)$name = $_POST['cat_name'];
                 $this->category->update("name", $name, $id);
@@ -51,8 +52,12 @@ class CategoryEditController extends Controller
             }
             if (!empty($_POST['cat_slug'])) {
                 (string)$slug = $_POST['cat_slug'];
-                $this->category->update("slug", $slug, $id);
-                header('location: /admin/categories');
+                if (preg_match("#^[a-zA-Z0-9_-]*$#", $slug)) {
+                    $this->category->update("slug", $slug, $id);
+                    header('location: /admin/categories');
+                } else {
+                    dd('error');
+                }
             }
         }
     }

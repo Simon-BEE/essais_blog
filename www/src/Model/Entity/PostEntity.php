@@ -1,7 +1,8 @@
 <?php
 namespace App\Model\Entity;
 
-use App\Helpers\Text;
+use \Core\Controller\Helpers\TextController;
+use \Core\Model\Entity;
 
 class PostEntity extends Entity
 {
@@ -49,7 +50,7 @@ class PostEntity extends Entity
 
     public function getExcerpt(int $length):string
     {
-        return htmlentities(Text::excerpt($this->getContent(), $length));
+        return htmlentities(TextController::excerpt($this->getContent(), $length));
     }
 
     public function getUrl():string
